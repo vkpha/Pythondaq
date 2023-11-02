@@ -1,12 +1,12 @@
 import pyvisa
 import matplotlib.pyplot as plt
+import csv
 
 def ADC(bit):
     return bit * (3.3 / 1023)
 
 def DAC(voltage):
     return voltage / (3.3 / 1023) 
-
 
 rm = pyvisa.ResourceManager("@py")
 
@@ -36,7 +36,13 @@ for i in range(1024):
     I_LED.append(I)
 
 plt.plot(U_LED, I_LED, '.')
-plt.show()
+plt.savefig('U_I_char.png')
+
+with open('metingen.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['U', 'I'])
+    for u, i in zip(U_LED, I_LED):
+        writer.writerow([u, i])
 
 device.query(f"OUT:CH0 0")
 
