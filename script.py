@@ -16,9 +16,6 @@ device = rm.open_resource(
     "ASRL8::INSTR", read_termination="\r\n", write_termination="\n"
 )
 
-CH1 = []
-CH2 = []
-
 U_LED = []
 I_LED = []
 
@@ -27,21 +24,18 @@ for i in range(1024):
     device.query(f"OUT:CH0 {value}")
     
     q1 = device.query(f"MEAS:CH1?")
-    CH1.append((int(q1)))
     q2 = device.query(f"MEAS:CH2?")
-    CH2.append(int(q2))
 
+    U1 = ADC(int(q1))
     U2 = ADC(int(q2))
     R = 220
     I = U2 / R
-
-    U_l = ADC(i) - U2
+    U_l = U1 - U2
 
     U_LED.append(U_l)
     I_LED.append(I)
-    #print(f"On LED: {i} ({ADC(i)} V)    Over resistor: {q2} ({ADC(int(q2))} V)")
 
-plt.plot(U_LED, I_LED, '-')
+plt.plot(U_LED, I_LED, '.')
 plt.show()
 
 device.query(f"OUT:CH0 0")
