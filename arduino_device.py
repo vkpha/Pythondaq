@@ -1,12 +1,16 @@
+# This is the controller class. We communicate with the device and return to model class.
+
 import pyvisa
 
 
 class ArduinoVISADevice:
     def __init__(self, port):
+        # Connect with device
         rm = pyvisa.ResourceManager("@py")
         self.device = rm.open_resource(
             port, read_termination="\r\n", write_termination="\n")
 
+    # Different functions to send queries to device
     def get_indentification(self):
         return self.device.query("*IDN?")
 
@@ -21,6 +25,8 @@ class ArduinoVISADevice:
 
     def get_input_voltage(self, channel):
         return float(self.get_input_value(channel) * (3.3 / 1023))
+
+# List devices out of class to know which port to use
 
 
 def list_devices():
