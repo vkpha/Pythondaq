@@ -2,9 +2,9 @@ from arduino_device import ArduinoVISADevice, list_devices
 
 
 class DiodeExperiment:
-    def __init__(self, R, port):
+    def __init__(self, port):
         self.device = ArduinoVISADevice(port=port)
-        self.R = R
+        self.R = 220
         return
 
     def scan(self, start, stop):
@@ -26,3 +26,35 @@ class DiodeExperiment:
         self.device.set_output_value(value=0)
 
         return U_LED, I_LED
+
+    def scan_with_error(self, N, start, stop):
+        U_LED_values = []
+        I_LED_values = []
+
+        U_mean = [0] * (stop - start)
+        I_mean = [0] * (stop - start)
+        for i in range(N):
+            U, I = self.scan(start, stop)
+            for j in range(start, stop):
+                U_mean[j] += U[j]
+                I_mean[j] += I[j]
+            U_LED_values.append(U)
+            I_LED_values.append(I)
+
+        for i in range(start, stop):
+            U_mean[i] /= N
+            I_mean[i] /= N
+
+        std_U = [0] * (stop - start)
+        std_I = [0] * (stop - start)
+
+        for i in range(N):
+            for j in range(start, stop):
+                std_U[j] += (U_LED_values[i][j] - U_mean[j])**2
+                std_I[j] += (I_LED_values[i][j] - I_mean[j])**2
+
+        for i in range(start, stop):
+            std_U[i] = (std_U[i] / (N - 1))**0.5
+            std_I[i] = (std_I[i] / (N - 1))**0.5
+
+        return U_mean, std_U, I_mean, std_I

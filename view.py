@@ -5,12 +5,12 @@ import csv
 print(list_devices())
 
 port = "ASRL8::INSTR"
-R = 220
-experiment = DiodeExperiment(R=R, port=port)
 
-U_LED, I_LED = experiment.scan(0, 1024)
+experiment = DiodeExperiment(port=port)
 
-plt.plot(U_LED, I_LED, '.')
+U_LED, U_err, I_LED, I_err = experiment.scan_with_error(3, 0, 1024)
+
+plt.errorbar(U_LED, I_LED, xerr=U_err, yerr=I_err, marker='.')
 plt.savefig('U_I_char.png')
 plt.show()
 
