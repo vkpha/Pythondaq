@@ -31,6 +31,7 @@ class DiodeExperiment:
         U_LED_values = []
         I_LED_values = []
 
+        # use scan function N times and calculate mean value for every U0 channel output
         U_mean = [0] * (stop - start)
         I_mean = [0] * (stop - start)
         for i in range(N):
@@ -40,26 +41,24 @@ class DiodeExperiment:
                 I_mean[j] += I[j]
             U_LED_values.append(U)
             I_LED_values.append(I)
-
         for i in range(start, stop):
             U_mean[i] /= N
             I_mean[i] /= N
 
+        # calculate standard deviation
         std_U = [0] * (stop - start)
         std_I = [0] * (stop - start)
-
         for i in range(N):
             for j in range(start, stop):
                 std_U[j] += (U_LED_values[i][j] - U_mean[j])**2
                 std_I[j] += (I_LED_values[i][j] - I_mean[j])**2
-
         for i in range(start, stop):
             std_U[i] = (std_U[i] / (N - 1))**0.5
             std_I[i] = (std_I[i] / (N - 1))**0.5
 
+        # calculate error for set of N experiments
         U_err = []
         I_err = []
-
         for U, I in zip(std_U, std_I):
             U_err.append(U / N**0.5)
             I_err.append(I / N**0.5)
