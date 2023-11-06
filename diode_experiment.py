@@ -57,4 +57,11 @@ class DiodeExperiment:
             std_U[i] = (std_U[i] / (N - 1))**0.5
             std_I[i] = (std_I[i] / (N - 1))**0.5
 
-        return U_mean, std_U, I_mean, std_I
+        U_err = []
+        I_err = []
+
+        for U, I in zip(std_U, std_I):
+            U_err.append(U / N**0.5)
+            I_err.append(I / N**0.5)
+
+        return U_mean, U_err, I_mean, I_err
