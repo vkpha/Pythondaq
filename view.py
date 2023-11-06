@@ -14,8 +14,8 @@ plt.errorbar(U_LED, I_LED, xerr=U_err, yerr=I_err, marker='.')
 plt.savefig('U_I_char.png')
 plt.show()
 
-with open('metingen_001.csv', 'w', newline='') as csvfile:
+with open('metingen_met_error.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(['U', 'I'])
-    for u, i in zip(U_LED, I_LED):
-        writer.writerow([u, i])
+    writer.writerow(['U', 'I', 'U_err', 'I_err'])
+    for u, i, u_err, i_err in zip(U_LED, I_LED, U_err, I_err):
+        writer.writerow([u, i, u_err, i_err])
