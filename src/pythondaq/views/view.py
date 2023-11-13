@@ -18,14 +18,14 @@ def main():
         N=5, start=0, stop=1024)
 
     # Plot results
-    plt.errorbar(U_LED, I_LED, xerr=U_err, yerr=I_err, marker='.')
-    plt.savefig('U_I_char.png')
+    plt.errorbar(U_LED, I_LED, xerr=U_err, yerr=I_err, fmt='.')
+    plt.savefig('pythondaq/U_I_char.png')
     plt.show()
 
     # Export to csv file
-    with open('metingen_met_error.csv', 'w', newline='') as csvfile:
+    with open('pythondaq/metingen_met_error.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['U_mean', 'I_mean', 'U_err', 'I_err'])
+        writer.writerow(['U mean (V)', 'I mean (A)', 'U error (V)', 'I error (A)'])
         for u, i, u_err, i_err in zip(U_LED, I_LED, U_err, I_err):
             writer.writerow([u, i, u_err, i_err])
 

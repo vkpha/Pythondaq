@@ -1,7 +1,7 @@
 # This is the model class. From here we communicate with the view class and controller class
 
 from pythondaq.controllers.arduino_device import ArduinoVISADevice, list_devices
-
+import numpy as np
 
 class DiodeExperiment:
     def __init__(self, port):
@@ -58,17 +58,10 @@ class DiodeExperiment:
             U_mean[i] /= N
             I_mean[i] /= N
 
-        # calculate standard deviation adding the squared differences of every measurement and mean
-        std_U = [0] * (stop - start)
-        std_I = [0] * (stop - start)
-        for i in range(N):
-            for j in range(start, stop):
-                std_U[j] += (U_LED_values[i][j] - U_mean[j])**2
-                std_I[j] += (I_LED_values[i][j] - I_mean[j])**2
-        for i in range(start, stop):
-            std_U[i] = (std_U[i] / (N - 1))**0.5
-            std_I[i] = (std_I[i] / (N - 1))**0.5
-
+        # calculate standard deviation
+        std_U = np.std(U_LED_values, axis = 0)
+        std_I = np.std(I_LED_values, axis = 0)
+        
         # calculate error for set of N experiments by dividing standard deviation N - 1 and taking square root
         U_err = []
         I_err = []
