@@ -27,7 +27,7 @@ def main():
     # Export to csv file
     with open('pythondaq/metingen_met_error.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['Voltage (V)', 'Current (A)', 'U error (V)', 'I error (A)'])
+        writer.writerow(['Voltage (V)', 'Current (A)', 'Voltage error (V)', 'Current error (A)'])
         for u, i, u_err, i_err in zip(U_LED, I_LED, U_err, I_err):
             writer.writerow([u, i, u_err, i_err])
 
