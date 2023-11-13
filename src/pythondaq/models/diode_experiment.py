@@ -1,6 +1,6 @@
 # This is the model class. From here we communicate with the view class and controller class
 
-from arduino_device import ArduinoVISADevice, list_devices
+from pythondaq.controllers.arduino_device import ArduinoVISADevice, list_devices
 
 
 class DiodeExperiment:

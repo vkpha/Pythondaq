@@ -1,6 +1,6 @@
 # This is the view object. From here we can use the model class to conduct different kinds of experiments.
 
-from diode_experiment import DiodeExperiment, list_devices
+from pythondaq.models.diode_experiment import DiodeExperiment, list_devices
 import matplotlib.pyplot as plt
 import csv
 
