@@ -21,11 +21,11 @@ def main():
     plt.errorbar(U_LED, I_LED, xerr=U_err, yerr=I_err, fmt='.')
     plt.xlabel('Voltage (V)')
     plt.ylabel('Current (I)')
-    plt.savefig('pythondaq/U_I_char.png')
+    plt.savefig('U_I_char.png')
     plt.show()
 
     # Export to csv file
-    with open('pythondaq/metingen_met_error.csv', 'w', newline='') as csvfile:
+    with open('metingen_met_error.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Voltage (V)', 'Current (A)', 'Voltage error (V)', 'Current error (A)'])
         for u, i, u_err, i_err in zip(U_LED, I_LED, U_err, I_err):
